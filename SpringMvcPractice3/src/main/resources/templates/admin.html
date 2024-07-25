@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0e2433;
+            color: #fff;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            color: #0e2433;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #0e2433;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #45b6fe;
+            color: #fff;
+        }
+
+        .btn {
+            background-color: #45b6fe;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #399cda;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #0e2433;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .tab.active {
+            background-color: #45b6fe;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('users')">Users</div>
+            <div class="tab" onclick="showTab('personal-info')">Personal Information</div>
+            <div class="tab" onclick="showTab('add-user')">Add User</div>
+        </div>
+        <div id="users" class="tab-content active">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.email}">Email</td>
+                        <td th:text="${user.name}">Name</td>
+                        <td th:text="${user.department}">Department</td>
+                        <td>
+                            <a class="btn" th:href="@{/edit}">Edit</a>
+                            <a class="btn" th:href = "@{/edit/(email=${user.email})}">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="personal-info" class="tab-content">
+            <h2>Personal Information</h2>
+            <!-- Personal Information Content -->
+        </div>
+        <div id="add-user" class="tab-content">
+            <h2>Add User</h2>
+            <!-- Add User Form -->
+        </div>
+    </div>
+    <script>
+        function showTab(tabId) {
+            var tabs = document.querySelectorAll('.tab');
+            var tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            tabContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector('#' + tabId).classList.add('active');
+            document.querySelector('.tab[onclick="showTab(\'' + tabId + '\')"]').classList.add('active');
+        }
+    </script>
+</body>
+</html>
